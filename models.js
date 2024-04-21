@@ -21,12 +21,19 @@ let URL = new mongoose.model('URL', urlSchema);
 let Counter = new mongoose.model('counter', counterSchema);
 
 //returns null if doesnt exist or database object if it does.
-const checkDBforURL = (url, done) => {
-    URL.findOne({longURL: url}, function(err, data) {
+const checkDBforURL = (longurl, done) => {
+    URL.findOne({longURL: longurl}, function(err, data) {
       if (err) console.log(err);
       done(null, data);
     });
   };
+
+const getURLfromDB = (shorturl, done) => {
+    URL.findOne({shortURL: shorturl}, function(err, data) {
+      if (err) console.log(err);
+      done(null, data);
+    });
+};
 
 const createCounter = (done) => {
     var count = new Counter({
@@ -63,6 +70,7 @@ exports.URL = URL;
 exports.Counter = Counter;
 
 exports.checkDBforURL = checkDBforURL;
+exports.getURLfromDB = getURLfromDB;
 exports.createCounter = createCounter;
 exports.getNextSequence = getNextSequence;
 exports.insertURL = insertURL;
