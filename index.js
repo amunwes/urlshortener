@@ -44,23 +44,25 @@ app.post('/api/shorturl', function(req, res){
   if (isURL(req.body.url)){
     models.checkDBforURL(req.body.url, function(err, data) {
       if (err) console.log(err);
-      if (data === null){
+      if (data === null){// if url isnt in databse
         models.getNextSequence("userid", function(err, data){
           if (err) console.log(err);
-          res.json({
-            original_url : req.body.url, 
-            short_url : data.seq
-          });
           models.insertURL(req.body.url, data.seq, function(err, data){
+            res.sendFile(process.cwd() + '/views/response.html');
+            // res.json({
+            //   original_url : req.body.url, 
+            //   short_url : data.seq
+            // });
             if (err) console.log(err);
           });
         });
       }
-      else{
-        res.json({
-          original_url : req.body.url, 
-          short_url : data.shortURL
-        });
+      else{// if url is in database
+        res.sendFile(process.cwd() + '/views/response.html');
+        // res.json({
+        //   original_url : req.body.url, 
+        //   short_url : data.shortURL
+        // });
       }
 
   })}
