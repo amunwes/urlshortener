@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
+const pug = require('pug');
+
 
 // const dns = require('dns');
 // const url = require('url');
@@ -16,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
+app.set('view engine', 'pug')
 // let URL = new mongoose.model('URL', urlSchema);
 // let counter = new mongoose.model('counter', counterSchema);
 app.use(cors());
@@ -38,7 +41,8 @@ app.get('/', function(req, res) {
 
 app.post('/api/shorturl', function(req, res){
   //TODO: need to figure out how to add these short urls to routing and redirect to /api/shorturl when post is sent
-  
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
   console.log(`provided url: ${req.body.url}` );
   console.log(isURL(req.body.url));
   if (isURL(req.body.url)){
@@ -48,7 +52,8 @@ app.post('/api/shorturl', function(req, res){
         models.getNextSequence("userid", function(err, data){
           if (err) console.log(err);
           models.insertURL(req.body.url, data.seq, function(err, data){
-            res.sendFile(process.cwd() + '/views/response.html');
+            res.render('response', { shortURL: `${fullUrl}/${data.seq}`, longURL: req.body.url })
+            // res.sendFile(process.cwd() + '/views/response.html');
             // res.json({
             //   original_url : req.body.url, 
             //   short_url : data.seq
@@ -58,7 +63,8 @@ app.post('/api/shorturl', function(req, res){
         });
       }
       else{// if url is in database
-        res.sendFile(process.cwd() + '/views/response.html');
+        res.render('response', { shortURL: `${fullUrl}/${data.shortURL}`, longURL: req.body.url })
+        // res.sendFile(process.cwd() + '/views/response.html');
         // res.json({
         //   original_url : req.body.url, 
         //   short_url : data.shortURL

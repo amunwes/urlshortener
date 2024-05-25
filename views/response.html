@@ -11,29 +11,41 @@
     <link href="/public/style.css" rel="stylesheet" type="text/css" />
   </head>
 
-  <body>
+    <body>
+    <h1>URL Shortener</h1>
       <section id="urlbox">
-          <br><br>
-          <div id="formurl" class="mw450">
-              <input id="shortenurl" type="text" value="https://shorturl.at/4JSg7" onclick="if (!window.__cfRLUnblockHandlers) return false; this.select();">
-              <div id="formbutton">
-                  <input type="button" data-clipboard-target="#shortenurl" class="copy" value="Copy URL" onclick="if (!window.__cfRLUnblockHandlers) return false; toggle_visibility('balloon');">
-                </div>
-            </div>
-            <div id="formurl" class="mw450dblock">
-                <div id="balloon" style="display: table;">URL Copied</div>
-            </div>
-            <div id="formurl" class="mw450dblock">
-                <p class="boxtextleft">
-                    Long URL: <a href="https://www.freecodecamp.org/certification/fccadceb9f8-7d46-411b-9f73-f0da0f312724/data-analysis-with-python-v7" target="_blank">https://www.freecodecamp.org/certification/fccadceb9f8-7d46-411b-9f73-f0da0f312724/data-analysis-with-python-v7</a><br><br>
-                    <a href="url-total-clicks.php?u=shorturl.at/4JSg7" class="colorbuttonsmall">Total of clicks of your short URL</a><br>
-                    <a href="https://www.shorturl.at/" class="colorbuttonsmall">Shorten another URL</a><br><br>
-                    <span class="textmedium">* Short URLs that do not have at least one click per month are disabled</span>
-                </p>
-            </div>
+          
+        <label for="shortURL">Shortened URL:</label> 
+        <input type="text" value="Short" id="shortURL"> 
+        <button onclick="copyText()">Copy text</button>  
+          <script>
+          function copyText() {
+            var copyText = document.getElementById("shortURL");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(copyText.value);
+            alert("Copied the text: " + copyText.value);
+          }
+          </script>
+        <br><br>
+        <p>Long URL:
+            <a href="url">longURL</a> 
+        </p> 
+        
+        
+        <form action="api/shorturl" method="POST">
+            <fieldset>
+                <legend>Post another URL</legend>
+                <label for="url_input">URL:</label>
+                <input id="url_input" type="text" name="url" />
+                <input type="submit" value="POST URL" />
+            </fieldset>
+        </form>
         </section>
+        
         <footer>
             <p>By Amunwes <a href="https://amunwes.github.io/">My website</a></p>
         </footer>
+    
     </body>
 </html>

@@ -1,0 +1,33 @@
+doctype html
+head
+  title URL Shortener
+  link(rel='icon' type='image/x-icon' href='/public/favicon.ico')
+  link(href='/public/style.css' rel='stylesheet' type='text/css')
+h1 URL Shortener
+section#urlbox
+  label(for='shortURL') Shortened URL:
+  input#shortURL(type='text' value=shortURL)
+  button(onclick='copyText()') Copy text
+  script.
+    function copyText() {
+    var copyText = document.getElementById("shortURL");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(copyText.value);
+    alert("Copied the text: " + copyText.value);
+    }
+  br
+  br
+  p
+    | Long URL:
+    a(href=longURL) #{longURL}
+  form(action='api/shorturl' method='POST')
+    fieldset
+      legend Post another URL
+      label(for='url_input') URL:
+      input#url_input(type='text' name='url')
+      input(type='submit' value='POST URL')
+footer
+  p
+    | By Amunwes 
+    a(href='https://amunwes.github.io/') My website
