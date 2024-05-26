@@ -21,7 +21,7 @@ section#urlbox
   p
     | Long URL:
     a(href=longURL) #{longURL}
-  form(action='api/shorturl' method='POST')
+  form(action='shorten' method='POST')
     fieldset
       legend Post another URL
       label(for='url_input') URL:

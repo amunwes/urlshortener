@@ -39,7 +39,7 @@ app.get('/', function(req, res) {
 });
 
 
-app.post('/api/shorturl', function(req, res){
+app.post('/shorten', function(req, res){
   //TODO: need to figure out how to add these short urls to routing and redirect to /api/shorturl when post is sent
   var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
@@ -78,7 +78,7 @@ app.post('/api/shorturl', function(req, res){
 
 });
 
-app.get("/api/shorturl/:short_url", (req, res) => {
+app.get("/shorten/:short_url", (req, res) => {
   const { short_url } = req.params;
   console.log(short_url);
   models.getURLfromDB(short_url, function(err, data){
